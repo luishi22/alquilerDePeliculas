@@ -1,5 +1,5 @@
 //clase para manejo de vistas
-import { MovieManager } from "../models/movieManager.js";
+import { MovieManager } from "../controller/movieManager.js";
 import { Movie } from "../models/movie.js";
 
 const movies = new MovieManager();

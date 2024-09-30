@@ -27,7 +27,7 @@
             height="24"
             class="d-inline-block align-text-top"
           />
-          Navbar
+          Mis Pelis
         </a>
         <button
           class="navbar-toggler"
@@ -58,10 +58,13 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#seccionAlquiler">alquiler</a>
+              <a class="nav-link" href="#seccionAlquiler">Alquiler</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#seccionEstadistica">estadísticas</a>
+              <a class="nav-link" href="#seccionDevolución">Devolución</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#seccionEstadistica">Estadísticas</a>
             </li>
           </ul>
           <form class="d-flex" role="search">
@@ -80,6 +83,52 @@
     </nav>
 
     <main class="container">
+      <div class="seccion activo" id="inicio">
+        <div id="carouselExample" class="carousel slide">
+          <div class="carousel-inner">
+            <div class="carousel-item">
+              <img
+                src="https://www.tasteofcinema.com/wp-content/uploads/2013/10/influential-movie-characters.jpg"
+                class="d-block w-100"
+                alt="..."
+              />
+            </div>
+            <div class="carousel-item">
+              <img
+                src="https://assets.adnradio.cl/2023/06/estreno-pel%C3%ADculas-2023.jpg"
+                class="d-block w-100"
+                alt="..."
+              />
+            </div>
+            <div class="carousel-item active">
+              <img
+                src="https://th.bing.com/th/id/OIP.q0nmwb2jKulJTMyludgDVgHaEK?w=1200&h=675&rs=1&pid=ImgDetMain"
+                class="d-block w-100"
+                alt="..."
+              />
+            </div>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExample"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExample"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+
       <div class="seccion" id="seccionGestionLibro">
         <form id="formGestionPelicula" class="mt-4">
           <h2>Registrar película</h2>
@@ -272,84 +321,45 @@
         </div>
       </div>
 
-      <div class="seccion activo" id="seccionGestionUsuario">
-        <form id="formGestionPelicula" class="mt-4">
+      <div class="seccion" id="seccionGestionUsuario">
+        <form id="formGestionUsuario" class="mt-4">
           <h2>Registrar Usuarios</h2>
           <div class="row">
             <div class="mb-3 col-md-6">
-              <label for="inputTitulo" class="form-label">Título</label>
+              <label for="inputNombre" class="form-label">Nombre</label>
               <input
                 type="text"
                 class="form-control"
-                id="inputTitulo"
+                id="inputNombre"
                 required
               />
-              <div
-                id="error-titulo"
-                class="text-danger"
-                style="display: none"
-              ></div>
             </div>
+
             <div class="mb-3 col-md-6">
-              <label for="inputDirector" class="form-label">Director</label>
+              <label for="inputMembresia" class="form-label"
+                >número de membresía</label
+              >
               <input
                 type="text"
                 class="form-control"
-                id="inputDirector"
+                id="inputMembresia"
+                placeholder="__-__-__"
+                maxlength="8"
                 required
               />
-              <div
-                id="error-director"
-                class="text-danger"
-                style="display: none"
-              ></div>
             </div>
           </div>
           <div class="row">
             <div class="mb-3 col-md-6">
-              <label for="selectGenero" class="form-label"
-                >Selecciona un género de la película:</label
-              >
-              <select id="selectGenero" class="form-select" required></select>
-              <div
-                id="error-genero"
-                class="text-danger"
-                style="display: none"
-              ></div>
-            </div>
-
-            <div class="mb-3 col-md-6">
-              <label for="selectAnho" class="form-label"
-                >Año de lanzamiento:</label
-              >
-              <select id="selectAnho" class="form-select" required></select>
-              <div
-                id="error-anho"
-                class="text-danger"
-                style="display: none"
-              ></div>
-            </div>
-
-            <div class="mb-3 col-md-6">
-              <label for="inputCopias" class="form-label"
-                >Número de copias disponibles:</label
+              <label for="inputCorreo" class="form-label"
+                >Correo Electronico:</label
               >
               <input
-                type="number"
+                type="email"
                 class="form-control"
-                id="inputCopias"
-                step="1"
-                min="0"
-                oninvalid="this.setCustomValidity('Por favor, ingresa un número entero mayor a 0.')"
-                oninput="this.setCustomValidity('')"
-                title="Por favor, ingresa un número entero mayor a 0."
+                id="inputCorreo"
                 required
               />
-              <div
-                id="error-copias"
-                class="text-danger"
-                style="display: none"
-              ></div>
             </div>
           </div>
 
@@ -357,81 +367,26 @@
           <button type="reset" class="btn btn-primary">Limpiar</button>
         </form>
 
-        <!-- Sección de filtro -->
-        <div class="my-4 row">
-          <h3>Filtrar película</h3>
-          <div class="col-md-12 row">
-            <div class="my-2 col-md-2">
-              <input
-                type="radio"
-                class="btn-check"
-                name="options"
-                id="filtrarTodas"
-                autocomplete="off"
-                value="todas"
-                checked
-              />
-              <label class="btn btn-outline-secondary w-100" for="filtrarTodas"
-                >Mostrar todas</label
-              >
-            </div>
-
-            <div class="my-2 col-md-2">
-              <input
-                type="radio"
-                class="btn-check"
-                name="options"
-                id="filtrarGenero"
-                autocomplete="off"
-                value="genero"
-              />
-              <label class="btn btn-outline-secondary w-100" for="filtrarGenero"
-                >Filtrar por Género</label
-              >
-            </div>
-
-            <div class="my-2 col-md-2">
-              <input
-                type="radio"
-                class="btn-check"
-                name="options"
-                id="filtrarAnho"
-                autocomplete="off"
-                value="anho"
-              />
-              <label class="btn btn-outline-secondary w-100" for="filtrarAnho"
-                >Filtrar por año</label
-              >
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 seccion" id="DivSelectFiltro">
-          <select id="selectFiltro" class="form-select"></select>
-        </div>
-
         <!-- Tabla con scroll horizontal en pantallas pequeñas -->
-        <h3>Películas</h3>
+        <h3>Usuarios</h3>
         <div class="table-responsive">
           <table class="table table-striped table-hover table-bordered mt-4">
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Titulo</th>
-                <th scope="col">Director</th>
-                <th scope="col">Género</th>
-                <th scope="col">Año de lanzamiento</th>
-                <th scope="col">Copias disponibles</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">membresía</th>
+                <th scope="col">Correo</th>
               </tr>
             </thead>
-            <tbody class="table-group-divider" id="tablaGestion"></tbody>
+            <tbody class="table-group-divider" id="tablaUsuario"></tbody>
           </table>
         </div>
 
-        <!-- Modal de Confirmación Gestion película-->
+        <!-- Modal de Confirmación Gestion Usuario-->
         <div
           class="modal fade"
-          id="modalGestionPelicula"
+          id="modalGestionUsuario"
           tabindex="-1"
           aria-labelledby="modalGestionPeliculaLabel"
           aria-hidden="true"
@@ -439,7 +394,7 @@
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Confirmación Gestión de Película</h5>
+                <h5 class="modal-title">Confirmación Gestión de Usuario</h5>
                 <button
                   type="button"
                   class="btn-close"
@@ -448,7 +403,7 @@
                 ></button>
               </div>
               <div class="modal-body">
-                <p>La película se guardó con éxito.</p>
+                <p>El usuario se registro con exito.</p>
               </div>
               <div class="modal-footer">
                 <button
@@ -461,6 +416,199 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="seccion" id="seccionAlquiler">
+        <form id="formAlquiler" class="mt-4">
+          <h2>Alquiler de peliculas</h2>
+          <div class="row my-2">
+            <h3>Usuario</h3>
+            <select
+              class="form-select mb-2"
+              aria-label="Default select example"
+            >
+              <option selected>Open this select menu</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+            <h3>Películas</h3>
+            <select
+              class="form-select mb-2"
+              aria-label="Default select example"
+            >
+              <option selected>Open this select menu</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            Alquilar Pelicula
+          </button>
+        </form>
+
+        <h3 class="mt-3">Películas Alquiladas</h3>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover table-bordered mt-4">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">membresía</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider" id="tablaAlquiler"></tbody>
+          </table>
+        </div>
+
+        <h3 class="mt-3">Películas Reservadas</h3>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover table-bordered mt-4">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">membresía</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider" id="tablaReserva"></tbody>
+          </table>
+        </div>
+        <!-- Modal de Confirmación Gestion Usuario-->
+        <div
+          class="modal fade"
+          id="modalAlquiler"
+          tabindex="-1"
+          aria-labelledby="modalGestionPeliculaLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Confirmación de Alquiler</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <p>El usuario alquilo la pelicula exitosamente.</p>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Ok
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="seccion" id="seccionDevolución">
+        <form id="formDevilucion" class="mt-4">
+          <h2>Devolución de peliculas</h2>
+          <div class="row my-2">
+            <h3>Usuario</h3>
+            <select
+              class="form-select mb-2"
+              aria-label="Default select example"
+            >
+              <option selected>Open this select menu</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+            <h3>Películas</h3>
+            <select
+              class="form-select mb-2"
+              aria-label="Default select example"
+            >
+              <option selected>Open this select menu</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-success">Devolución</button>
+        </form>
+
+        <!-- Modal de Confirmación Gestion Usuario-->
+        <div
+          class="modal fade"
+          id="modalGestionUsuario"
+          tabindex="-1"
+          aria-labelledby="modalGestionPeliculaLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Confirmación Gestión de Usuario</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <p>El usuario se registro con exito.</p>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Ok
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="seccion" id="seccionEstadistica">
+        <h2>Estadísticas de la tienda</h2>
+
+        <h3>Ranking de las 5 películas mejor calificadas</h3>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover table-bordered mt-4">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Director</th>
+                <th scope="col">Género</th>
+                <th scope="col">Año de lanzamiento</th>
+                <th scope="col">Puntuación</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider" id="tablaRank"></tbody>
+          </table>
+        </div>
+
+        <h3>Total de Peliculas y Alquileres activos</h3>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover table-bordered mt-4">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Total de peliculas</th>
+                <th scope="col">Total de Alquileres Activos</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider" id="tablaActivos"></tbody>
+          </table>
         </div>
       </div>
     </main>

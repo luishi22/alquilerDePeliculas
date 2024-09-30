@@ -13,10 +13,10 @@
 		  rango de años de lanzamiento.
 
 Registro de Usuarios:
-	• Los usuarios deben registrarse con
-		nombre
+	• ---Los usuarios deben registrarse con
+		---nombre
 		número de membresía
-		dirección de correo electrónico.
+		---dirección de correo electrónico.
 	• Cada usuario tendrá un límite de alquileres activos, que será de 3 películas 
 	máximo. Si un usuario tiene 3 películas en préstamo, no podrá alquilar más hasta 
 	que devuelva una.
@@ -54,30 +54,3 @@ Sistema de Reservas:
 		o El total de alquileres activos.
 	• Utiliza Bootstrap para un diseño atractivo, con uso de tarjetas, botones estilizados, 
 	y una navegación fluida.
-
-
---- Llenado de select de generos:
-	    <option selected>Géneros</option>
-            <option value="Accion">Acción</option>
-            <option value="Comedia">Comedia</option>
-            <option value="Drama">Drama</option>
-            <option value="Ciencia Ficcion">Ciencia Ficción</option>
-            <option value="Terror">Terror</option>
-            <option value="Romance">Romance</option>
-            <option value="Aventura">Aventura</option>
-            <option value="Animacion">Animación</option>
-            <option value="Documental">Documental</option>
-            <option value="Fantasia">Fantasía</option>
-
---- llenado de select de años
-            <option selected>Selecciona el año</option>
-
-const releaseYearSelect = document.getElementById('releaseYear');
-    const currentYear = new Date().getFullYear(); // Año actual
-
-    for (let year = currentYear; year >= 1900; year--) { // Rango de años de 1900 al año actual
-        let option = document.createElement('option');
-        option.value = year;
-        option.textContent = year;
-        releaseYearSelect.appendChild(option);
-    }

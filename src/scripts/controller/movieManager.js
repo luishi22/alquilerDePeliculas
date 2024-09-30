@@ -1,4 +1,4 @@
-import { Movie } from "./movie.js";
+import { Movie } from "../models/movie.js";
 
 class MovieManager {
   constructor() {

@@ -1,5 +1,6 @@
 // index.js
 import "./views/viewMovie.js";
+import "./views/viewUser.js";
 
 // Actualiza la navegación entre secciones
 document.querySelectorAll(".nav-link").forEach((link) => {
