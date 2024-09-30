@@ -1,0 +1,83 @@
+ -- Registro de Películas:
+	•-- Cada película debe tener: 
+		título
+		director
+		género
+		año de lanzamiento
+		número de copias disponibles.
+	• --cada película tendrá un ranking (puntuación de 1 a 5 estrellas) basado en 
+	    las calificaciones de los usuarios.
+	•-- Las películas registradas deben aparecer en una lista dinámica y se debe poder 
+	    filtrar por:
+		  género
+		  rango de años de lanzamiento.
+
+Registro de Usuarios:
+	• Los usuarios deben registrarse con
+		nombre
+		número de membresía
+		dirección de correo electrónico.
+	• Cada usuario tendrá un límite de alquileres activos, que será de 3 películas 
+	máximo. Si un usuario tiene 3 películas en préstamo, no podrá alquilar más hasta 
+	que devuelva una.
+	• Se debe almacenar el historial de alquileres de cada usuario.
+
+Alquiler de Películas:
+	• Los usuarios pueden alquilar películas si hay copias disponibles y si no han 
+	alcanzado el límite de 3 alquileres activos.
+	• Al seleccionar un usuario y una película, debe disminuir el número de copias de la 
+	película y registrar el alquiler, mostrando la fecha del alquiler.
+	• Si no hay copias disponibles, debe permitir reservar la película. Una vez que la 
+	película esté disponible, se notificará al usuario (por consola) de la disponibilidad.
+
+Devolución de Películas:
+	• Los usuarios deben poder devolver películas alquiladas. Al devolver una película, el 
+	número de copias disponibles aumenta y el alquiler se elimina del registro activo 
+	del usuario.
+	• Al devolver una película, el usuario puede calificar la película de 1 a 5 estrellas, lo 
+	que actualizará el ranking promedio de la película
+
+Sistema de Reservas:
+	• Si un usuario intenta alquilar una película que no tiene copias disponibles, puede 
+	reservarla.
+	• Cuando la película sea devuelta, la reserva se activa automáticamente, y la primera 
+	persona en la lista de reservas será notificada para que pueda alquilarla (mostrar 
+	un mensaje en la consola).
+	• Las reservas se asignan en orden de solicitud.
+6. Interfaz Mejorada:
+	• La aplicación debe contar con una barra de navegación que permita acceder a las 
+	diferentes secciones: inicio, gestión de películas, gestión de usuarios, alquiler, 
+	devolución, y reservas.
+	• Debe existir una sección de estadísticas, donde se muestre:
+		o El ranking de las 5 películas mejor calificadas.
+		o El total de películas disponibles en la videoteca.
+		o El total de alquileres activos.
+	• Utiliza Bootstrap para un diseño atractivo, con uso de tarjetas, botones estilizados, 
+	y una navegación fluida.
+
+
+--- Llenado de select de generos:
+	    <option selected>Géneros</option>
+            <option value="Accion">Acción</option>
+            <option value="Comedia">Comedia</option>
+            <option value="Drama">Drama</option>
+            <option value="Ciencia Ficcion">Ciencia Ficción</option>
+            <option value="Terror">Terror</option>
+            <option value="Romance">Romance</option>
+            <option value="Aventura">Aventura</option>
+            <option value="Animacion">Animación</option>
+            <option value="Documental">Documental</option>
+            <option value="Fantasia">Fantasía</option>
+
+--- llenado de select de años
+            <option selected>Selecciona el año</option>
+
+const releaseYearSelect = document.getElementById('releaseYear');
+    const currentYear = new Date().getFullYear(); // Año actual
+
+    for (let year = currentYear; year >= 1900; year--) { // Rango de años de 1900 al año actual
+        let option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        releaseYearSelect.appendChild(option);
+    }
