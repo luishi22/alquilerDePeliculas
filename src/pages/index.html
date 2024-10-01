@@ -141,12 +141,14 @@
                 id="inputTitulo"
                 required
               />
+
               <div
                 id="error-titulo"
                 class="text-danger"
                 style="display: none"
               ></div>
             </div>
+
             <div class="mb-3 col-md-6">
               <label for="inputDirector" class="form-label">Director</label>
               <input
@@ -155,19 +157,16 @@
                 id="inputDirector"
                 required
               />
-              <div
-                id="error-director"
-                class="text-danger"
-                style="display: none"
-              ></div>
             </div>
           </div>
+
           <div class="row">
             <div class="mb-3 col-md-6">
-              <label for="selectGenero" class="form-label"
-                >Selecciona un género de la película:</label
-              >
+              <label for="selectGenero" class="form-label">
+                Selecciona un género de la película:
+              </label>
               <select id="selectGenero" class="form-select" required></select>
+
               <div
                 id="error-genero"
                 class="text-danger"
@@ -176,10 +175,11 @@
             </div>
 
             <div class="mb-3 col-md-6">
-              <label for="selectAnho" class="form-label"
-                >Año de lanzamiento:</label
-              >
+              <label for="selectAnho" class="form-label">
+                Año de lanzamiento:
+              </label>
               <select id="selectAnho" class="form-select" required></select>
+
               <div
                 id="error-anho"
                 class="text-danger"
@@ -188,9 +188,9 @@
             </div>
 
             <div class="mb-3 col-md-6">
-              <label for="inputCopias" class="form-label"
-                >Número de copias disponibles:</label
-              >
+              <label for="inputCopias" class="form-label">
+                Número de copias disponibles:
+              </label>
               <input
                 type="number"
                 class="form-control"
@@ -202,6 +202,7 @@
                 title="Por favor, ingresa un número entero mayor a 0."
                 required
               />
+
               <div
                 id="error-copias"
                 class="text-danger"
@@ -343,10 +344,15 @@
                 type="text"
                 class="form-control"
                 id="inputMembresia"
-                placeholder="__-__-__"
+                placeholder="00-00-0"
                 maxlength="8"
                 required
               />
+              <div
+                id="error-membresia"
+                class="text-danger"
+                style="display: none"
+              ></div>
             </div>
           </div>
           <div class="row">
@@ -427,22 +433,14 @@
             <select
               class="form-select mb-2"
               aria-label="Default select example"
-            >
-              <option selected>Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+              id="selectUsuarios"
+            ></select>
             <h3>Películas</h3>
             <select
               class="form-select mb-2"
               aria-label="Default select example"
-            >
-              <option selected>Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+              id="selectPeliculas"
+            ></select>
           </div>
 
           <button type="submit" class="btn btn-primary">
@@ -471,6 +469,7 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Titulo</th>
+                <th scope="col">Persona</th>
                 <th scope="col">membresía</th>
               </tr>
             </thead>

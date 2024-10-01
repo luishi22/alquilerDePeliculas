@@ -7,15 +7,6 @@ class Usuario {
     this.peliculas = [];
     this.reservas = [];
   }
-
-  addAlquiler(pelicula) {
-    this.historial.push(pelicula);
-    this.peliculas.push(pelicula);
-  }
-
-  addReserva(reserva) {
-    this.reservas.push(reserva);
-  }
 }
 
 export { Usuario };

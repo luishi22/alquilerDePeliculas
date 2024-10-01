@@ -3,6 +3,16 @@ import { Usuario } from "../models/user.js";
 class UserManager {
   constructor() {
     this.usuarios = [];
+    this.cargarUsuarios();
+  }
+
+  cargarUsuarios() {
+    const array = JSON.parse(localStorage.getItem("usuarios"));
+    if (array === null || array.length <= 0) {
+      this.usuarios = [];
+    } else {
+      this.usuarios = array;
+    }
   }
 
   addUser(usuario) {
@@ -10,32 +20,83 @@ class UserManager {
     localStorage.setItem("usuarios", JSON.stringify(this.usuarios));
   }
 
+  actualizarUsuario(usuarioActualizado) {
+    // Obtener el arreglo de usuarios del localStorage
+    const usuariosGuardados =
+      JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    // Encontrar el índice del usuario a actualizar
+    const indice = usuariosGuardados.findIndex(
+      (usuario) => usuario.membresia === usuarioActualizado.membresia
+    );
+
+    // Si se encuentra el usuario, actualizarlo
+    if (indice !== -1) {
+      usuariosGuardados[indice] = usuarioActualizado;
+
+      // Guardar el arreglo actualizado en el localStorage
+      localStorage.setItem("usuarios", JSON.stringify(usuariosGuardados));
+      this.usuarios = usuariosGuardados; // Actualizar el arreglo en la instancia actual
+    } else {
+      console.log("Usuario no encontrado");
+    }
+  }
+
   getAllUser() {
     return JSON.parse(localStorage.getItem("usuarios"));
   }
 
-  getAlquilerCantidad(nombre) {
-    const usuario = findUsuario(nombre);
-    if (usuario.peliculas.length < 3) {
-      return true;
-    } else {
+  getCantUser() {
+    const array = JSON.parse(localStorage.getItem("usuarios"));
+    if (array === null || array.length <= 0) {
       return false;
     }
+    return true;
   }
 
-  findUsuario(nombre) {
-    return this.usuarios.find((usuario) => usuario.nombre === nombre);
+  findUsuarioByMembresia(membresia) {
+    const usuario = this.usuarios.find(
+      (usuario) => usuario.membresia === membresia
+    );
+    return usuario;
   }
 
-  addAlquiler(nombre, pelicula) {
-    const usuario = findUsuario(nombre);
-    usuario.addAlquiler(pelicula);
+  addAlquiler(usuario, pelicula) {
+    usuario.historial.push(pelicula);
+    usuario.peliculas.push(pelicula);
+    this.actualizarUsuario(usuario);
   }
 
-  addReserva(nombre, reserva) {
-    const usuario = findUsuario(nombre);
-    usuario.addReserva(reserva);
+  getAlquileres(usuario) {
+    return usuario.peliculas;
   }
+
+  getCantidadAlquileres(usuario) {
+    return usuario.peliculas.length;
+  }
+
+  addReserva(usuario, reserva) {
+    usuario.push(reserva);
+  }
+
+  /* 
+    addAlquiler(pelicula) {
+    this.historial.push(pelicula);
+    this.peliculas.push(pelicula);
+  }
+
+  getAlquileres() {
+    return this.peliculas;
+  }
+
+  getCantAlquileres() {
+    return this.peliculas.length;
+  }
+
+  addReserva(reserva) {
+    this.reservas.push(reserva);
+  }
+  */
 }
 
 export { UserManager };

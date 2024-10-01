@@ -3,6 +3,16 @@ import { Movie } from "../models/movie.js";
 class MovieManager {
   constructor() {
     this.movies = [];
+    this.cargarArray();
+  }
+
+  cargarArray() {
+    const array = JSON.parse(localStorage.getItem("listMovies"));
+    if (array === null || array.length <= 0) {
+      this.movies = []; // Inicializa this.movies si no hay datos previos
+    } else {
+      this.movies = array; // Asigna el array correctamente a this.movies
+    }
   }
 
   addMovies(movie) {
@@ -14,6 +24,14 @@ class MovieManager {
     return JSON.parse(localStorage.getItem("listMovies"));
   }
 
+  getCanMovies() {
+    const array = JSON.parse(localStorage.getItem("listMovies"));
+    if (array === null || array.length <= 0) {
+      return false;
+    }
+    return true;
+  }
+
   filterMovieByAnho(anho) {
     return this.movies.filter((movie) => movie.anho === anho);
   }
@@ -23,7 +41,12 @@ class MovieManager {
   }
 
   findByTitulo(titulo) {
-    retunr = this.movies.find((movie) => movie.titulo === titulo);
+    const pelicula = this.movies.find((movie) => movie.titulo === titulo);
+    if (pelicula === undefined) {
+      return false;
+    } else {
+      return pelicula;
+    }
   }
 
   setRating(movie, rating) {

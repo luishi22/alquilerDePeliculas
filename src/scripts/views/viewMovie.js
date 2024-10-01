@@ -4,12 +4,11 @@ import { Movie } from "../models/movie.js";
 
 const movies = new MovieManager();
 
-loadSelect();
-window.onload = function () {
-  loadMovies();
-};
+loadSelectGenero();
+loadSelectAnho();
+loadMovies();
 
-function loadSelect() {
+function loadSelectGenero() {
   const selectGenero = document.getElementById("selectGenero");
   selectGenero.innerHTML = `
     <option value="Géneros" selected>Géneros</option>
@@ -24,6 +23,9 @@ function loadSelect() {
     <option value="Documental">Documental</option>
     <option value="Fantasia">Fantasía</option>
   `;
+}
+
+function loadSelectAnho() {
   const selectAnho = document.getElementById("selectAnho");
   selectAnho.innerHTML = `<option value="Selecciona el año" selected>Selecciona el año</option>`;
 
@@ -38,42 +40,68 @@ function loadSelect() {
   }
 }
 
-document.getElementById("inputCopias").addEventListener("input", function () {
-  const inputCopias = document.getElementById("inputCopias");
-  const errorMessage = document.getElementById("error-copias");
-  const value = inputCopias.value;
-
-  // Limpia el mensaje de error
-  errorMessage.style.display = "none";
-
-  // Verifica si el valor no es un entero
-  if (!Number.isInteger(Number(value)) || value < 0) {
-    errorMessage.textContent = "Por favor, ingrese un número entero positivo.";
-    errorMessage.style.display = "block";
-  }
-});
-
-function loadMovies() {
-  const table = document.getElementById("tablaGestion");
-  table.innerHTML = "";
-
-  movies.getAllMovies().forEach((pelicula, index) => {
-    const row = document.createElement("tr");
-
-    row.classList.add("table-active");
-
-    // Crear las celdas de la fila
-    row.innerHTML = `
-      <th scope="row">${index + 1}</th>
-      <td>${pelicula.titulo}</td>
-      <td>${pelicula.director}</td>
-      <td>${pelicula.genero}</td>
-      <td>${pelicula.anho}</td>
-      <td>${pelicula.copias}</td>
+function loadSelectfilter(filtro) {
+  if (filtro === "genero") {
+    const selectGenero = document.getElementById("selectFiltro");
+    selectGenero.innerHTML = `
+      <option value="Géneros" selected>Géneros</option>
+      <option value="Accion">Acción</option>
+      <option value="Comedia">Comedia</option>
+      <option value="Drama">Drama</option>
+      <option value="Ciencia Ficcion">Ciencia Ficción</option>
+      <option value="Terror">Terror</option>
+      <option value="Romance">Romance</option>
+      <option value="Aventura">Aventura</option>
+      <option value="Animacion">Animación</option>
+      <option value="Documental">Documental</option>
+      <option value="Fantasia">Fantasía</option>
     `;
-    // Agregar la fila al tbody
-    table.appendChild(row);
-  });
+  } else {
+    const selectAnho = document.getElementById("selectFiltro");
+    selectAnho.innerHTML = `<option value="Selecciona el año" selected>Selecciona el año</option>`;
+
+    const currentYear = new Date().getFullYear(); // Año actual
+
+    for (let year = currentYear; year >= 1900; year--) {
+      // Rango de años de 1900 al año actual
+      let option = document.createElement("option");
+      option.value = year;
+      option.textContent = year;
+      selectAnho.appendChild(option);
+    }
+  }
+}
+
+function checkControllerfilter() {
+  const radioSelect = document.querySelector('input[name="options"]:checked');
+  const selectFiltro = document.getElementById("DivSelectFiltro");
+  const selectValor = document.getElementById("selectFiltro");
+
+  // Verificamos si hay un radio button seleccionado
+  if (radioSelect) {
+    const radioValor = radioSelect.value;
+
+    if (radioValor === "genero") {
+      loadSelectfilter("genero");
+      selectFiltro.classList.add("activo");
+
+      // Espera a que el valor del select cambie antes de filtrar
+      selectValor.addEventListener("change", () => {
+        filtrarMovies("genero", selectValor.value);
+      });
+    } else if (radioValor === "anho") {
+      loadSelectfilter("anho");
+      selectFiltro.classList.add("activo");
+
+      // Espera a que el valor del select cambie antes de filtrar
+      selectValor.addEventListener("change", () => {
+        filtrarMovies("anho", selectValor.value);
+      });
+    } else if (radioValor === "todas") {
+      selectFiltro.classList.remove("activo");
+      loadMovies();
+    }
+  }
 }
 
 function filtrarMovies(filtro, tipo) {
@@ -122,70 +150,6 @@ function filtrarMovies(filtro, tipo) {
   }
 }
 
-function loadSelectfilter(llenar) {
-  if (llenar === "genero") {
-    const selectGenero = document.getElementById("selectFiltro");
-    selectGenero.innerHTML = `
-      <option value="Géneros" selected>Géneros</option>
-      <option value="Accion">Acción</option>
-      <option value="Comedia">Comedia</option>
-      <option value="Drama">Drama</option>
-      <option value="Ciencia Ficcion">Ciencia Ficción</option>
-      <option value="Terror">Terror</option>
-      <option value="Romance">Romance</option>
-      <option value="Aventura">Aventura</option>
-      <option value="Animacion">Animación</option>
-      <option value="Documental">Documental</option>
-      <option value="Fantasia">Fantasía</option>
-    `;
-  } else {
-    const selectAnho = document.getElementById("selectFiltro");
-    selectAnho.innerHTML = `<option value="Selecciona el año" selected>Selecciona el año</option>`;
-
-    const currentYear = new Date().getFullYear(); // Año actual
-
-    for (let year = currentYear; year >= 1900; year--) {
-      // Rango de años de 1900 al año actual
-      let option = document.createElement("option");
-      option.value = year;
-      option.textContent = year;
-      selectAnho.appendChild(option);
-    }
-  }
-}
-
-function checkControllerfilter() {
-  const radioSelect = document.querySelector('input[name="options"]:checked');
-  const selectFiltro = document.getElementById("DivSelectFiltro");
-  const selectFiltroValue = document.getElementById("selectFiltro");
-
-  // Verificamos si hay un radio button seleccionado
-  if (radioSelect) {
-    const selectedValue = radioSelect.value;
-
-    if (selectedValue === "genero") {
-      loadSelectfilter("genero");
-      selectFiltro.classList.add("activo");
-
-      // Espera a que el valor del select cambie antes de filtrar
-      selectFiltroValue.addEventListener("change", () => {
-        filtrarMovies("genero", selectFiltroValue.value);
-      });
-    } else if (selectedValue === "anho") {
-      loadSelectfilter("anho");
-      selectFiltro.classList.add("activo");
-
-      // Espera a que el valor del select cambie antes de filtrar
-      selectFiltroValue.addEventListener("change", () => {
-        filtrarMovies("anho", selectFiltroValue.value);
-      });
-    } else if (selectedValue === "todas") {
-      selectFiltro.classList.remove("activo");
-      loadMovies();
-    }
-  }
-}
-
 // IDs de los radio buttons
 const radios = ["filtrarTodas", "filtrarGenero", "filtrarAnho"];
 
@@ -202,15 +166,15 @@ function saveMovie() {
   const selectAnho = document.getElementById("selectAnho").value;
   const selectGenero = document.getElementById("selectGenero").value;
   const inputCopias = parseInt(document.getElementById("inputCopias").value);
-
+  let findPelicula = "";
   // Limpiar mensajes de error previos
   document.getElementById("error-titulo").style.display = "none";
-  document.getElementById("error-director").style.display = "none";
   document.getElementById("error-anho").style.display = "none";
   document.getElementById("error-genero").style.display = "none";
   document.getElementById("error-copias").style.display = "none";
 
   let hasError = false; // Variable para rastrear errores
+  findPelicula = movies.findByTitulo(inputTitulo.trim());
 
   // Validación de cada campo
   if (inputTitulo.trim() === "") {
@@ -218,13 +182,11 @@ function saveMovie() {
       "El título es obligatorio.";
     document.getElementById("error-titulo").style.display = "block";
     hasError = true; // Marca si hay error xd
-  }
-
-  if (inputDirector.trim() === "") {
-    document.getElementById("error-director").textContent =
-      "El director es obligatorio.";
-    document.getElementById("error-director").style.display = "block";
-    hasError = true;
+  } else if (findPelicula !== false) {
+    document.getElementById("error-titulo").textContent =
+      "Esta pelicula ya fue registrada.";
+    document.getElementById("error-titulo").style.display = "block";
+    hasError = true; // Marca si hay error xd
   }
 
   if (selectAnho === "Selecciona el año") {
@@ -267,6 +229,30 @@ function saveMovie() {
   }
 }
 
+function loadMovies() {
+  const table = document.getElementById("tablaGestion");
+  table.innerHTML = "";
+  if (movies.getCanMovies()) {
+    movies.getAllMovies().forEach((pelicula, index) => {
+      const row = document.createElement("tr");
+
+      row.classList.add("table-active");
+
+      // Crear las celdas de la fila
+      row.innerHTML = `
+        <th scope="row">${index + 1}</th>
+        <td>${pelicula.titulo}</td>
+        <td>${pelicula.director}</td>
+        <td>${pelicula.genero}</td>
+        <td>${pelicula.anho}</td>
+        <td>${pelicula.copias}</td>
+      `;
+      // Agregar la fila al tbody
+      table.appendChild(row);
+    });
+  }
+}
+
 document
   .getElementById("formGestionPelicula")
   .addEventListener("submit", function (e) {
@@ -276,3 +262,18 @@ document
       this.reset();
     }
   });
+
+document.getElementById("inputCopias").addEventListener("input", function () {
+  const inputCopias = document.getElementById("inputCopias");
+  const errorMessage = document.getElementById("error-copias");
+  const value = inputCopias.value;
+
+  // Limpia el mensaje de error
+  errorMessage.style.display = "none";
+
+  // Verifica si el valor no es un entero
+  if (!Number.isInteger(Number(value)) || value < 0) {
+    errorMessage.textContent = "Por favor, ingrese un número entero positivo.";
+    errorMessage.style.display = "block";
+  }
+});
