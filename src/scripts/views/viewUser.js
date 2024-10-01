@@ -58,6 +58,10 @@ function saveUser() {
     inputError.style.display = "none";
     usuarios.addUser(usuario);
     loadUsuarios();
+    const modal = new bootstrap.Modal(
+      document.getElementById("modalGestionUsuario")
+    );
+    modal.show();
     return true;
   }
 }

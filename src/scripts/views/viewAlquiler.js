@@ -66,6 +66,9 @@ function saveAlquiler() {
   if (usuarios.getCantidadAlquileres(usuario) < 3) {
     usuarios.addAlquiler(usuario, pelicula);
     loadAlquileres();
+    loadUsuarios();
+    const modal = new bootstrap.Modal(document.getElementById("modalAlquiler"));
+    modal.show();
   }
 }
 
