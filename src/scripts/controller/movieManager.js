@@ -15,6 +15,26 @@ class MovieManager {
     }
   }
 
+  actualizarMovie(movieActualizado) {
+    // Obtener el arreglo de pelis del localStorage
+    const moviesSave = JSON.parse(localStorage.getItem("listMovies")) || [];
+
+    // Encontrar el índice de la peli a actualizar
+    const indice = moviesSave.findIndex(
+      (movie) => movie.titulo === movieActualizado.titulo
+    );
+
+    if (indice !== -1) {
+      moviesSave[indice] = movieActualizado;
+
+      // Guardar el arreglo actualizado en el localStorage
+      localStorage.setItem("listMovies", JSON.stringify(moviesSave));
+      this.movies = moviesSave; // Actualizar el arreglo en la instancia actual
+    } else {
+      console.log("pelicula no encontrado");
+    }
+  }
+
   addMovies(movie) {
     this.movies.push(movie);
     localStorage.setItem("listMovies", JSON.stringify(this.movies));
@@ -49,6 +69,25 @@ class MovieManager {
     }
   }
 
+  alquilarMovie(titulo) {
+    const movie = this.findByTitulo(titulo);
+    movie.copias--;
+    this.actualizarMovie(movie);
+  }
+
+  rentMovie(titulo, membresia) {
+    const movie = this.findByTitulo(titulo);
+    console.log(movie);
+    movie.reservacion.push(membresia);
+    this.actualizarMovie(movie);
+  }
+
+  returnMovie(titulo) {
+    const movie = this.findMovieByTitle(titulo);
+    movie.copias++;
+    this.actualizarMovie(movie);
+  }
+
   setRating(movie, rating) {
     movie.updatePuntuacion(rating);
   }
@@ -58,24 +97,6 @@ class MovieManager {
     return this.movies
       .sort((a, b) => b.puntuacion - a.puntuacion) // Ordenar por calificación de mayor a menor, b - a para mayor a menor y a - b para menor a mayor
       .slice(0, 5); // Toma el indice 0,1,2,3,4
-  }
-
-  rentMovie(title) {
-    const movie = this.findByTitulo(title);
-    if (movie && movie.copias > movie.rentadas) {
-      movie.rentadas++;
-      return true; // Alquiler exitoso
-    }
-    return false; // Película ya está alquilada o no hay copias disponibles
-  }
-
-  returnMovie(title) {
-    const movie = this.findMovieByTitle(title);
-    if (movie && movie.rentadas > 0) {
-      movie.isRented--; // Decrementa el contador de copias alquiladas
-      return true; // Devolución exitosa
-    }
-    return false; // No hay copias alquiladas para devolver o no se encontró
   }
 }
 

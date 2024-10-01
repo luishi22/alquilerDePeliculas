@@ -5,7 +5,6 @@ class Usuario {
     this.correo = correo;
     this.historial = [];
     this.peliculas = [];
-    this.reservas = [];
   }
 }
 

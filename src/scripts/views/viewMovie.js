@@ -4,9 +4,20 @@ import { Movie } from "../models/movie.js";
 
 const movies = new MovieManager();
 
-loadSelectGenero();
-loadSelectAnho();
-loadMovies();
+// Llama a verificarSeccion al cargar la página
+window.addEventListener("load", verificarSeccion);
+
+// Llama a verificarSeccion cuando el hash cambie
+window.addEventListener("hashchange", verificarSeccion);
+
+// Función para verificar y cargar datos de la sección
+function verificarSeccion() {
+  if (window.location.hash === "#seccionGestionLibro") {
+    loadSelectGenero();
+    loadSelectAnho();
+    loadMovies();
+  }
+}
 
 function loadSelectGenero() {
   const selectGenero = document.getElementById("selectGenero");

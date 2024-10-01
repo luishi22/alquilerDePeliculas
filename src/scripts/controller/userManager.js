@@ -72,31 +72,13 @@ class UserManager {
   }
 
   getCantidadAlquileres(usuario) {
-    return usuario.peliculas.length;
+    const cantidad = usuario.peliculas.length;
+    return cantidad;
   }
 
   addReserva(usuario, reserva) {
     usuario.push(reserva);
   }
-
-  /* 
-    addAlquiler(pelicula) {
-    this.historial.push(pelicula);
-    this.peliculas.push(pelicula);
-  }
-
-  getAlquileres() {
-    return this.peliculas;
-  }
-
-  getCantAlquileres() {
-    return this.peliculas.length;
-  }
-
-  addReserva(reserva) {
-    this.reservas.push(reserva);
-  }
-  */
 }
 
 export { UserManager };

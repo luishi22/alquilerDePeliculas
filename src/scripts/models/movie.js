@@ -5,9 +5,9 @@ class Movie {
     this.genero = genero;
     this.anho = anho;
     this.copias = copias;
-    this.rentadas = 0;
     this.puntuacion = 0;
     this.puntuaciones = [];
+    this.reservacion = [];
   }
 
   updatePuntuacion(newRating) {
