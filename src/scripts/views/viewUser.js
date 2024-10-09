@@ -1,9 +1,3 @@
-//clase para manejo de vistas
-import { MovieManager } from "../controller/movieManager.js";
-import { UserManager } from "../controller/userManager.js";
-import { Movie } from "../models/movie.js";
-import { Usuario } from "../models/user.js";
-
 const usuarios = new UserManager();
 
 // Llama a verificarSeccion al cargar la página

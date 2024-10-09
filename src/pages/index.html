@@ -217,55 +217,15 @@
 
         <!-- Sección de filtro -->
         <div class="my-4 row">
-          <h3>Filtrar película</h3>
-          <div class="col-md-12 row">
-            <div class="my-2 col-md-2">
-              <input
-                type="radio"
-                class="btn-check"
-                name="options"
-                id="filtrarTodas"
-                autocomplete="off"
-                value="todas"
-                checked
-              />
-              <label class="btn btn-outline-secondary w-100" for="filtrarTodas"
-                >Mostrar todas</label
-              >
-            </div>
-
-            <div class="my-2 col-md-2">
-              <input
-                type="radio"
-                class="btn-check"
-                name="options"
-                id="filtrarGenero"
-                autocomplete="off"
-                value="genero"
-              />
-              <label class="btn btn-outline-secondary w-100" for="filtrarGenero"
-                >Filtrar por Género</label
-              >
-            </div>
-
-            <div class="my-2 col-md-2">
-              <input
-                type="radio"
-                class="btn-check"
-                name="options"
-                id="filtrarAnho"
-                autocomplete="off"
-                value="anho"
-              />
-              <label class="btn btn-outline-secondary w-100" for="filtrarAnho"
-                >Filtrar por año</label
-              >
-            </div>
+          <div class="col-md-4">
+            <label for="filtro" class="form-label">Filtro</label>
+            <input
+              class="form-control me-2"
+              type="text"
+              id="filtro"
+              placeholder="Filtrar"
+            />
           </div>
-        </div>
-
-        <div class="col-md-6 seccion" id="DivSelectFiltro">
-          <select id="selectFiltro" class="form-select"></select>
         </div>
 
         <!-- Tabla con scroll horizontal en pantallas pequeñas -->
@@ -279,7 +239,8 @@
                 <th scope="col">Director</th>
                 <th scope="col">Género</th>
                 <th scope="col">Año de lanzamiento</th>
-                <th scope="col">Copias disponibles</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Prestamos</th>
               </tr>
             </thead>
             <tbody class="table-group-divider" id="tablaGestion"></tbody>
@@ -455,6 +416,7 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Titulo</th>
+                <th scope="col">Usuario</th>
                 <th scope="col">membresía</th>
               </tr>
             </thead>
@@ -645,7 +607,8 @@
       </div>
     </main>
     <!-- mijs -->
-    <script type="module" src="../scripts/index.js"></script>
+    <script src="../scripts/clases.js"></script>
+    <script src="../scripts/views/viewMovie.js"></script>
     <!-- script de bootstrap -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

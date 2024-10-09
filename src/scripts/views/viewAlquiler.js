@@ -1,9 +1,3 @@
-//clase para manejo de vistas
-import { MovieManager } from "../controller/movieManager.js";
-import { UserManager } from "../controller/userManager.js";
-import { Movie } from "../models/movie.js";
-import { Usuario } from "../models/user.js";
-
 /* window.onload = function () {
   loadAlquileres();
 }; */
@@ -65,9 +59,11 @@ function saveAlquiler() {
 
   const user = usuarios.findUsuarioByMembresia(membresia);
   const movie = movies.findByTitulo(pelicula);
+  const cantidad = movie.stock - movie.prestamos;
+  const usuarioPelis = usuarios.getCantidadAlquileres(user);
 
-  if (user.peliculas.length < 3) {
-    if (movie.copias > 0) {
+  if (usuarioPelis < 3) {
+    if (cantidad > 0) {
       movies.alquilarMovie(pelicula);
       usuarios.addAlquiler(user, pelicula);
       loadAlquileres();
@@ -91,7 +87,9 @@ function loadAlquileres() {
 
   if (usuarios.getCantUser()) {
     usuarios.getAllUser().forEach((usuario) => {
+      console.log(usuario.nombre);
       cantidad = usuarios.getCantidadAlquileres(usuario);
+      console.log(cantidad);
       if (cantidad > 0) {
         for (let i = 0; i < cantidad; i++) {
           const row = document.createElement("tr");

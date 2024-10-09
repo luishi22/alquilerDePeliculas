@@ -1,8 +1,4 @@
-//clase para manejo de vistas
-import { MovieManager } from "../controller/movieManager.js";
-import { Movie } from "../models/movie.js";
-
-const movies = new MovieManager();
+const movie = new Movie();
 
 // Llama a verificarSeccion al cargar la página
 window.addEventListener("load", verificarSeccion);
@@ -15,7 +11,10 @@ function verificarSeccion() {
   if (window.location.hash === "#seccionGestionLibro") {
     loadSelectGenero();
     loadSelectAnho();
-    loadMovies();
+    const peliculas = movies.getAllMovies();
+    if (peliculas.length > 0) {
+      loadMovies(peliculas);
+    }
   }
 }
 
@@ -51,125 +50,21 @@ function loadSelectAnho() {
   }
 }
 
-function loadSelectfilter(filtro) {
-  if (filtro === "genero") {
-    const selectGenero = document.getElementById("selectFiltro");
-    selectGenero.innerHTML = `
-      <option value="Géneros" selected>Géneros</option>
-      <option value="Accion">Acción</option>
-      <option value="Comedia">Comedia</option>
-      <option value="Drama">Drama</option>
-      <option value="Ciencia Ficcion">Ciencia Ficción</option>
-      <option value="Terror">Terror</option>
-      <option value="Romance">Romance</option>
-      <option value="Aventura">Aventura</option>
-      <option value="Animacion">Animación</option>
-      <option value="Documental">Documental</option>
-      <option value="Fantasia">Fantasía</option>
-    `;
-  } else {
-    const selectAnho = document.getElementById("selectFiltro");
-    selectAnho.innerHTML = `<option value="Selecciona el año" selected>Selecciona el año</option>`;
+function filtrarPeliculas() {
+  const filtro = document.getElementById("filtro").value.toLowerCase();
 
-    const currentYear = new Date().getFullYear(); // Año actual
+  // Obtener todas las películas y aplicar el filtro
+  const peliculasFiltradas = movies
+    .getAllMovies()
+    .filter(
+      (pelicula) =>
+        pelicula.genero.toLowerCase().includes(filtro) ||
+        pelicula.anho.toString().includes(filtro)
+    );
 
-    for (let year = currentYear; year >= 1900; year--) {
-      // Rango de años de 1900 al año actual
-      let option = document.createElement("option");
-      option.value = year;
-      option.textContent = year;
-      selectAnho.appendChild(option);
-    }
-  }
+  // Recargar la tabla con los proyectos filtrados
+  loadMovies(peliculasFiltradas);
 }
-
-function checkControllerfilter() {
-  const radioSelect = document.querySelector('input[name="options"]:checked');
-  const selectFiltro = document.getElementById("DivSelectFiltro");
-  const selectValor = document.getElementById("selectFiltro");
-
-  // Verificamos si hay un radio button seleccionado
-  if (radioSelect) {
-    const radioValor = radioSelect.value;
-
-    if (radioValor === "genero") {
-      loadSelectfilter("genero");
-      selectFiltro.classList.add("activo");
-
-      // Espera a que el valor del select cambie antes de filtrar
-      selectValor.addEventListener("change", () => {
-        filtrarMovies("genero", selectValor.value);
-      });
-    } else if (radioValor === "anho") {
-      loadSelectfilter("anho");
-      selectFiltro.classList.add("activo");
-
-      // Espera a que el valor del select cambie antes de filtrar
-      selectValor.addEventListener("change", () => {
-        filtrarMovies("anho", selectValor.value);
-      });
-    } else if (radioValor === "todas") {
-      selectFiltro.classList.remove("activo");
-      loadMovies();
-    }
-  }
-}
-
-function filtrarMovies(filtro, tipo) {
-  if (filtro === "anho") {
-    const table = document.getElementById("tablaGestion");
-    table.innerHTML = "";
-
-    movies.filterMovieByAnho(tipo).forEach((pelicula, index) => {
-      const row = document.createElement("tr");
-
-      row.classList.add("table-active");
-
-      // Crear las celdas de la fila
-      row.innerHTML = `
-      <th scope="row">${index + 1}</th>
-      <td>${pelicula.titulo}</td>
-      <td>${pelicula.director}</td>
-      <td>${pelicula.genero}</td>
-      <td>${pelicula.anho}</td>
-      <td>${pelicula.copias}</td>
-    `;
-      // Agregar la fila al tbody
-      table.appendChild(row);
-    });
-  } else if (filtro === "genero") {
-    const table = document.getElementById("tablaGestion");
-    table.innerHTML = "";
-
-    movies.filterMovieByGenero(tipo).forEach((pelicula, index) => {
-      const row = document.createElement("tr");
-
-      row.classList.add("table-active");
-
-      // Crear las celdas de la fila
-      row.innerHTML = `
-      <th scope="row">${index + 1}</th>
-      <td>${pelicula.titulo}</td>
-      <td>${pelicula.director}</td>
-      <td>${pelicula.genero}</td>
-      <td>${pelicula.anho}</td>
-      <td>${pelicula.copias}</td>
-    `;
-      // Agregar la fila al tbody
-      table.appendChild(row);
-    });
-  }
-}
-
-// IDs de los radio buttons
-const radios = ["filtrarTodas", "filtrarGenero", "filtrarAnho"];
-
-// Agregar el evento change a todos los radio buttons
-radios.forEach((id) => {
-  document.getElementById(id).addEventListener("change", () => {
-    checkControllerfilter();
-  });
-});
 
 function saveMovie() {
   const inputTitulo = document.getElementById("inputTitulo").value;
@@ -235,33 +130,36 @@ function saveMovie() {
     );
     modal.show();
     movies.addMovies(movie);
-    loadMovies();
+    const peliculas = movies.getAllMovies();
+    if (peliculas.length > 0) {
+      loadMovies(peliculas);
+    }
     return true;
   }
 }
 
-function loadMovies() {
+function loadMovies(peliculas) {
   const table = document.getElementById("tablaGestion");
   table.innerHTML = "";
-  if (movies.getCanMovies()) {
-    movies.getAllMovies().forEach((pelicula, index) => {
-      const row = document.createElement("tr");
 
-      row.classList.add("table-active");
+  peliculas.forEach((pelicula, index) => {
+    const row = document.createElement("tr");
 
-      // Crear las celdas de la fila
-      row.innerHTML = `
+    row.classList.add("table-active");
+
+    // Crear las celdas de la fila
+    row.innerHTML = `
         <th scope="row">${index + 1}</th>
         <td>${pelicula.titulo}</td>
         <td>${pelicula.director}</td>
         <td>${pelicula.genero}</td>
         <td>${pelicula.anho}</td>
-        <td>${pelicula.copias}</td>
+        <td>${pelicula.stock}</td>
+        <td>${pelicula.prestamos}</td>
       `;
-      // Agregar la fila al tbody
-      table.appendChild(row);
-    });
-  }
+    // Agregar la fila al tbody
+    table.appendChild(row);
+  });
 }
 
 document
@@ -288,3 +186,5 @@ document.getElementById("inputCopias").addEventListener("input", function () {
     errorMessage.style.display = "block";
   }
 });
+
+document.getElementById("filtro").addEventListener("input", filtrarPeliculas);

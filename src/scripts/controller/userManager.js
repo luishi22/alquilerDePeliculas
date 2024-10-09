@@ -1,5 +1,3 @@
-import { Usuario } from "../models/user.js";
-
 class UserManager {
   constructor() {
     this.usuarios = [];
@@ -7,10 +5,8 @@ class UserManager {
   }
 
   cargarUsuarios() {
-    const array = JSON.parse(localStorage.getItem("usuarios"));
-    if (array === null || array.length <= 0) {
-      this.usuarios = [];
-    } else {
+    const array = JSON.parse(localStorage.getItem("usuarios")) || [];
+    if (array.length > 0) {
       this.usuarios = array;
     }
   }
@@ -47,8 +43,8 @@ class UserManager {
   }
 
   getCantUser() {
-    const array = JSON.parse(localStorage.getItem("usuarios"));
-    if (array === null || array.length <= 0) {
+    const array = JSON.parse(localStorage.getItem("usuarios")) || [];
+    if (array.length <= 0) {
       return false;
     }
     return true;
@@ -72,8 +68,7 @@ class UserManager {
   }
 
   getCantidadAlquileres(usuario) {
-    const cantidad = usuario.peliculas.length;
-    return cantidad;
+    return usuario.peliculas.length;
   }
 
   addReserva(usuario, reserva) {

@@ -1,5 +1,3 @@
-import { Movie } from "../models/movie.js";
-
 class MovieManager {
   constructor() {
     this.movies = [];
@@ -7,10 +5,8 @@ class MovieManager {
   }
 
   cargarArray() {
-    const array = JSON.parse(localStorage.getItem("listMovies"));
-    if (array === null || array.length <= 0) {
-      this.movies = []; // Inicializa this.movies si no hay datos previos
-    } else {
+    const array = JSON.parse(localStorage.getItem("listMovies")) || [];
+    if (array.length > 0) {
       this.movies = array; // Asigna el array correctamente a this.movies
     }
   }
@@ -41,7 +37,7 @@ class MovieManager {
   }
 
   getAllMovies() {
-    return JSON.parse(localStorage.getItem("listMovies"));
+    return JSON.parse(localStorage.getItem("listMovies")) || [];
   }
 
   getCanMovies() {
@@ -50,14 +46,6 @@ class MovieManager {
       return false;
     }
     return true;
-  }
-
-  filterMovieByAnho(anho) {
-    return this.movies.filter((movie) => movie.anho === anho);
-  }
-
-  filterMovieByGenero(genero) {
-    return this.movies.filter((movie) => movie.genero === genero);
   }
 
   findByTitulo(titulo) {
@@ -71,7 +59,7 @@ class MovieManager {
 
   alquilarMovie(titulo) {
     const movie = this.findByTitulo(titulo);
-    movie.copias--;
+    movie.prestamos++;
     this.actualizarMovie(movie);
   }
 
@@ -84,7 +72,7 @@ class MovieManager {
 
   returnMovie(titulo) {
     const movie = this.findMovieByTitle(titulo);
-    movie.copias++;
+    movie.prestamos--;
     this.actualizarMovie(movie);
   }
 
