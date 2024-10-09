@@ -1,19 +1,18 @@
 const movie = new Movie();
 
 // Llama a verificarSeccion al cargar la página
-window.addEventListener("load", verificarSeccion);
+window.addEventListener("load", verificarPeliculas);
 
 // Llama a verificarSeccion cuando el hash cambie
-window.addEventListener("hashchange", verificarSeccion);
+window.addEventListener("hashchange", verificarPeliculas);
 
 // Función para verificar y cargar datos de la sección
-function verificarSeccion() {
-  if (window.location.hash === "#seccionGestionLibro") {
+function verificarPeliculas() {
+  if (window.location.hash === "#seccionGestionPelicula") {
     loadSelectGenero();
     loadSelectAnho();
-    const peliculas = movies.getAllMovies();
-    if (peliculas.length > 0) {
-      loadMovies(peliculas);
+    if (movies.length > 0) {
+      loadMovies(movies);
     }
   }
 }
