@@ -53,13 +53,11 @@ function filtrarPeliculas() {
   const filtro = document.getElementById("filtro").value.toLowerCase();
 
   // Obtener todas las películas y aplicar el filtro
-  const peliculasFiltradas = movies
-    .getAllMovies()
-    .filter(
-      (pelicula) =>
-        pelicula.genero.toLowerCase().includes(filtro) ||
-        pelicula.anho.toString().includes(filtro)
-    );
+  const peliculasFiltradas = movies.filter(
+    (pelicula) =>
+      pelicula.genero.toLowerCase().includes(filtro) ||
+      pelicula.anho.toString().includes(filtro)
+  );
 
   // Recargar la tabla con los proyectos filtrados
   loadMovies(peliculasFiltradas);
@@ -72,6 +70,7 @@ function saveMovie() {
   const selectGenero = document.getElementById("selectGenero").value;
   const inputCopias = parseInt(document.getElementById("inputCopias").value);
   let findPelicula = "";
+
   // Limpiar mensajes de error previos
   document.getElementById("error-titulo").style.display = "none";
   document.getElementById("error-anho").style.display = "none";
@@ -79,7 +78,6 @@ function saveMovie() {
   document.getElementById("error-copias").style.display = "none";
 
   let hasError = false; // Variable para rastrear errores
-  findPelicula = movies.findByTitulo(inputTitulo.trim());
 
   // Validación de cada campo
   if (inputTitulo.trim() === "") {
@@ -87,7 +85,7 @@ function saveMovie() {
       "El título es obligatorio.";
     document.getElementById("error-titulo").style.display = "block";
     hasError = true; // Marca si hay error xd
-  } else if (findPelicula !== false) {
+  } else if (movies.some((movie) => movie.nombre == inputTitulo.trim())) {
     document.getElementById("error-titulo").textContent =
       "Esta pelicula ya fue registrada.";
     document.getElementById("error-titulo").style.display = "block";
@@ -128,10 +126,9 @@ function saveMovie() {
       document.getElementById("modalGestionPelicula")
     );
     modal.show();
-    movies.addMovies(movie);
-    const peliculas = movies.getAllMovies();
-    if (peliculas.length > 0) {
-      loadMovies(peliculas);
+    addMovies(movie);
+    if (movies.length > 0) {
+      loadMovies(movies);
     }
     return true;
   }

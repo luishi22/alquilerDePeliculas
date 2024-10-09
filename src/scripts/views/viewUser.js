@@ -56,6 +56,9 @@ function saveUser() {
   const inputCorreo = document.getElementById("inputCorreo").value;
   const inputError = document.getElementById("error-membresia");
   const usuario = new Usuario(inputUsuario, inputMembresia, inputCorreo);
+
+  this.usuarios.find((usuario) => usuario.membresia === membresia);
+
   if (usuarios.findUsuarioByMembresia(inputMembresia)) {
     inputError.textContent = "Esta membresia ya existe";
     inputError.style.display = "block";

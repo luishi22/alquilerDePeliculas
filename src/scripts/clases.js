@@ -47,29 +47,32 @@ class Movie {
   }
 }
 
-const movies = [];
-const usuarios = [];
+let movies = [];
+let usuarios = [];
 
 // Llama a verificarSeccion al cargar la página
 window.addEventListener("load", cargarArrays);
 
 // Llama a verificarSeccion cuando el hash cambie
-/* window.addEventListener("hashchange", verificarSeccion); */
+window.addEventListener("hashchange", cargarArrays);
 
 // Función para verificar y cargar datos de la sección
 function cargarArrays() {
-  if (window.location.hash === "#seccionGestionLibro") {
+  if (window.location.hash === "#seccionGestionPelicula") {
     cargarMovies();
     cargarUsuarios();
   }
 }
 
+function addMovies(movie) {
+  movies.push(movie);
+  localStorage.setItem("listMovies", JSON.stringify(movies));
+}
+
 /* Array de peliculas */
 function cargarMovies() {
-  const array = JSON.parse(localStorage.getItem("listMovies")) || [];
-  if (array.length > 0) {
-    movies = array; // Asigna el array correctamente a this.movies
-  }
+  movies = JSON.parse(localStorage.getItem("listMovies")) || [];
+  console.log(movies);
 }
 
 function actualizarMovies(movieActualizado) {
@@ -92,17 +95,9 @@ function actualizarMovies(movieActualizado) {
   }
 }
 
-function addMovies(movie) {
-  movies.push(movie);
-  localStorage.setItem("listMovies", JSON.stringify(movies));
-}
-
 /* Array de usuarios */
 function cargarUsuarios() {
-  const array = JSON.parse(localStorage.getItem("usuarios")) || [];
-  if (array.length > 0) {
-    usuarios = array;
-  }
+  usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 }
 
 function addUser(usuario) {
