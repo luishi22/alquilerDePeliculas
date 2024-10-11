@@ -61,10 +61,7 @@
               <a class="nav-link" href="#seccionAlquiler">Alquiler</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#seccionDevolución">Devolución</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#seccionEstadistica">Estadísticas</a>
+              <a class="nav-link" href="#seccionDevolucion">Devolución</a>
             </li>
           </ul>
           <form class="d-flex" role="search">
@@ -497,17 +494,29 @@
                 </p>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="confirmar">
-                  Si
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
                 </button>
-                <button type="button" class="btn btn-secondary">No</button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="confirmar"
+                  data-bs-dismiss="modal"
+                  onclick="reservar()"
+                >
+                  confirmar reservacion
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="seccion" id="seccionDevolución">
+      <div class="seccion" id="seccionDevolucion">
         <form id="formDevilucion" class="mt-4">
           <h2>Devolución de peliculas</h2>
           <div class="row my-2">
@@ -515,22 +524,14 @@
             <select
               class="form-select mb-2"
               aria-label="Default select example"
-            >
-              <option selected>Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+              id="selectDevolucionUsuario"
+            ></select>
             <h3>Películas</h3>
             <select
               class="form-select mb-2"
               aria-label="Default select example"
-            >
-              <option selected>Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+              id="selectDevolucionPelicula"
+            ></select>
           </div>
           <button type="submit" class="btn btn-success">Devolución</button>
         </form>
@@ -538,7 +539,7 @@
         <!-- Modal de Confirmación Gestion Usuario-->
         <div
           class="modal fade"
-          id="modalGestionUsuario"
+          id="modalGestionDevolucion"
           tabindex="-1"
           aria-labelledby="modalGestionPeliculaLabel"
           aria-hidden="true"
@@ -546,7 +547,7 @@
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Confirmación Gestión de Usuario</h5>
+                <h5 class="modal-title">Confirmación de devolucion</h5>
                 <button
                   type="button"
                   class="btn-close"
@@ -555,7 +556,7 @@
                 ></button>
               </div>
               <div class="modal-body">
-                <p>El usuario se registro con exito.</p>
+                <p>La devolucion fue exitosa.</p>
               </div>
               <div class="modal-footer">
                 <button
@@ -569,46 +570,37 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="seccion" id="seccionEstadistica">
-        <h2>Estadísticas de la tienda</h2>
-
-        <h3>Ranking de las 5 películas mejor calificadas</h3>
-        <div class="table-responsive">
-          <table class="table table-striped table-hover table-bordered mt-4">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Titulo</th>
-                <th scope="col">Director</th>
-                <th scope="col">Género</th>
-                <th scope="col">Año de lanzamiento</th>
-                <th scope="col">Puntuación</th>
-              </tr>
-            </thead>
-            <tbody class="table-group-divider" id="tablaRank"></tbody>
-          </table>
-        </div>
-
-        <h3>Total de Peliculas y Alquileres activos</h3>
-        <div class="table-responsive">
-          <table class="table table-striped table-hover table-bordered mt-4">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Total de peliculas</th>
-                <th scope="col">Total de Alquileres Activos</th>
-              </tr>
-            </thead>
-            <tbody class="table-group-divider" id="tablaActivos"></tbody>
-          </table>
+        <!-- Notificacion -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+          <div
+            id="notiReserva"
+            class="toast"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+          >
+            <div class="toast-header">
+              <strong class="me-auto">Peliculas</strong>
+              <small>Ahorita</small>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="toast"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="toast-body"></div>
+          </div>
         </div>
       </div>
     </main>
     <!-- mijs -->
     <script src="../scripts/clases.js"></script>
     <script src="../scripts/views/viewMovie.js"></script>
+    <script src="../scripts/views/viewUser.js"></script>
+    <script src="../scripts/views/viewAlquiler.js"></script>
+    <script src="../scripts/views/devolucion.js"></script>
     <!-- script de bootstrap -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

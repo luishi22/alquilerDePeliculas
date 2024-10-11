@@ -34,7 +34,6 @@ class Movie {
     this.anho = anho;
     this.stock = stock;
     this.prestamos = 0;
-    this.puntuacion = 0;
     this.puntuaciones = [];
     this.reservacion = [];
   }
@@ -53,15 +52,10 @@ let usuarios = [];
 // Llama a verificarSeccion al cargar la página
 window.addEventListener("load", cargarArrays);
 
-// Llama a verificarSeccion cuando el hash cambie
-window.addEventListener("hashchange", cargarArrays);
-
 // Función para verificar y cargar datos de la sección
 function cargarArrays() {
-  if (window.location.hash === "#seccionGestionPelicula") {
-    cargarMovies();
-    cargarUsuarios();
-  }
+  cargarMovies();
+  cargarUsuarios();
 }
 
 function addMovies(movie) {

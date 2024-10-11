@@ -1,35 +1,29 @@
-/* window.onload = function () {
-  loadAlquileres();
-}; */
-const movies = new MovieManager();
-const usuarios = new UserManager();
 const selectPeliculas = document.getElementById("selectPeliculas");
 const selectUsuario = document.getElementById("selectUsuarios");
-/* 
-const seccionAlquiler = document.getElementById("seccionAlquiler"); */
 
-// Llama a verificarSeccion al cargar la página
-window.addEventListener("load", verificarSeccion);
+// Llama a verrificarAlquiler al cargar la página
+window.addEventListener("load", verrificarAlquiler);
 
-// Llama a verificarSeccion cuando el hash cambie
-window.addEventListener("hashchange", verificarSeccion);
+// Llama a verrificarAlquiler cuando el hash cambie
+window.addEventListener("hashchange", verrificarAlquiler);
 
 // Función para verificar y cargar datos de la sección
-function verificarSeccion() {
+function verrificarAlquiler() {
   if (window.location.hash === "#seccionAlquiler") {
-    loadMovies(); // Cargar películas
-    loadUsuarios(); // Cargar usuarios
+    loadSelectMovies(); // Cargar películas
+    loadSelectUsers(); // Cargar usuarios
     loadAlquileres();
+    loadMembresia();
   }
 }
 
 // Función para cargar las películas
-function loadMovies() {
+function loadSelectMovies() {
   // Limpiar opciones existentes
   selectPeliculas.innerHTML = "";
 
-  if (movies.getCanMovies()) {
-    movies.getAllMovies().forEach((movie) => {
+  if (movies.length > 0) {
+    movies.forEach((movie) => {
       const option = document.createElement("option");
       option.textContent = movie.titulo;
       option.value = movie.titulo;
@@ -39,12 +33,12 @@ function loadMovies() {
 }
 
 // Función para cargar los usuarios
-function loadUsuarios() {
+function loadSelectUsers() {
   // Limpiar opciones existentes
   selectUsuario.innerHTML = "";
 
-  if (usuarios.getCantUser()) {
-    usuarios.getAllUser().forEach((usuario) => {
+  if (usuarios.length > 0) {
+    usuarios.forEach((usuario) => {
       const option = document.createElement("option");
       option.textContent = `Usuario: ${usuario.nombre} - Membresía: ${usuario.membresia}`;
       option.value = usuario.membresia;
@@ -57,15 +51,19 @@ function saveAlquiler() {
   const pelicula = selectPeliculas.value;
   const membresia = selectUsuario.value;
 
-  const user = usuarios.findUsuarioByMembresia(membresia);
-  const movie = movies.findByTitulo(pelicula);
-  const cantidad = movie.stock - movie.prestamos;
-  const usuarioPelis = usuarios.getCantidadAlquileres(user);
+  const user = usuarios.find((usuario) => usuario.membresia === membresia);
+  const movie = movies.find((movie) => movie.titulo === pelicula.trim());
 
-  if (usuarioPelis < 3) {
+  const cantidad = movie.stock - movie.prestamos;
+  const usuarioPelis = user.peliculas.length;
+  console.log(user);
+  if (usuarioPelis < 4) {
     if (cantidad > 0) {
-      movies.alquilarMovie(pelicula);
-      usuarios.addAlquiler(user, pelicula);
+      movie.prestamos++;
+      user.peliculas.push(movie.titulo);
+      user.historial.push(movie.titulo);
+      actualizarMovies(movie);
+      actualizarUsuario(user);
       loadAlquileres();
       const modal = new bootstrap.Modal(
         document.getElementById("modalAlquiler")
@@ -77,6 +75,7 @@ function saveAlquiler() {
       );
       modal.show();
     }
+    return true;
   }
 }
 
@@ -85,11 +84,10 @@ function loadAlquileres() {
   let cantidad = 0;
   tabla.innerHTML = "";
 
-  if (usuarios.getCantUser()) {
-    usuarios.getAllUser().forEach((usuario) => {
-      console.log(usuario.nombre);
-      cantidad = usuarios.getCantidadAlquileres(usuario);
-      console.log(cantidad);
+  if (usuarios.length > 0) {
+    usuarios.forEach((usuario) => {
+      cantidad = usuario.peliculas.length;
+
       if (cantidad > 0) {
         for (let i = 0; i < cantidad; i++) {
           const row = document.createElement("tr");
@@ -114,51 +112,47 @@ document
   .getElementById("formAlquiler")
   .addEventListener("submit", function (e) {
     e.preventDefault();
+
     saveAlquiler();
-    this.reset();
   });
 
-document.getElementById("confirmar").addEventListener("click", function (e) {
-  rentar();
-});
-
-function rentar() {
+function reservar() {
   const pelicula = selectPeliculas.value;
   const membresia = selectUsuario.value;
 
-  const usuario = usuarios.findUsuarioByMembresia(membresia);
-  const movie = movies.findByTitulo(pelicula);
-
-  if (usuarios.getCantidadAlquileres(usuario) < 3) {
-    if (movie.copias === 0) {
-      movies.rentMovie(pelicula, membresia);
+  const usuario = usuarios.find((usuario) => usuario.membresia === membresia);
+  const movie = movies.find((movie) => movie.titulo === pelicula.trim());
+  console.log(usuario.peliculas.length);
+  if (usuario.peliculas.length < 3) {
+    if (movie.stock - movie.prestamos === 0) {
+      movie.reservacion.push(usuario.membresia);
+      actualizarMovies(movie);
       loadMembresia();
     }
+  } else {
+    alert("El usuario ya tiene alquiladas 3 peliculas");
   }
 }
 
 function loadMembresia() {
   const tabla = document.getElementById("tablaReserva");
-  let cantidad = 0;
   tabla.innerHTML = "";
 
-  if (movies.getCanMovies()) {
-    movies.getAllMovies().forEach((movie) => {
-      if (movie.reservacion.length > 0) {
-        movie.reservacion.forEach((reservacion, Index) => {
-          const row = document.createElement("tr");
-          row.classList.add("table-active");
+  movies.forEach((movie) => {
+    if (movie.reservacion.length > 0) {
+      movie.reservacion.forEach((reservacion, Index) => {
+        const row = document.createElement("tr");
+        row.classList.add("table-active");
 
-          // Crear las celdas de la fila
-          row.innerHTML = `
+        // Crear las celdas de la fila
+        row.innerHTML = `
           <th scope="row">${Index + 1}</th>
           <td>${movie.titulo}</td>
           <td>${reservacion}</td>
           `;
-          // Agregar la fila al tbody
-          tabla.appendChild(row);
-        });
-      }
-    });
-  }
+        // Agregar la fila al tbody
+        tabla.appendChild(row);
+      });
+    }
+  });
 }

@@ -1,5 +1,3 @@
-const movie = new Movie();
-
 // Llama a verificarSeccion al cargar la página
 window.addEventListener("load", verificarPeliculas);
 

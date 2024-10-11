@@ -1,13 +1,11 @@
-const usuarios = new UserManager();
+// Llama a verificarUsuarios al cargar la página
+window.addEventListener("load", verificarUsuarios);
 
-// Llama a verificarSeccion al cargar la página
-window.addEventListener("load", verificarSeccion);
-
-// Llama a verificarSeccion cuando el hash cambie
-window.addEventListener("hashchange", verificarSeccion);
+// Llama a verificarUsuarios cuando el hash cambie
+window.addEventListener("hashchange", verificarUsuarios);
 
 // Función para verificar y cargar datos de la sección
-function verificarSeccion() {
+function verificarUsuarios() {
   if (window.location.hash === "#seccionGestionUsuario") {
     loadUsuarios();
   }
@@ -57,15 +55,13 @@ function saveUser() {
   const inputError = document.getElementById("error-membresia");
   const usuario = new Usuario(inputUsuario, inputMembresia, inputCorreo);
 
-  this.usuarios.find((usuario) => usuario.membresia === membresia);
-
-  if (usuarios.findUsuarioByMembresia(inputMembresia)) {
+  if (usuarios.some((user) => user.membresia === inputMembresia.trim())) {
     inputError.textContent = "Esta membresia ya existe";
     inputError.style.display = "block";
   } else {
     // Ocultar el mensaje de error si la tecla es válida
     inputError.style.display = "none";
-    usuarios.addUser(usuario);
+    addUser(usuario);
     loadUsuarios();
     const modal = new bootstrap.Modal(
       document.getElementById("modalGestionUsuario")
@@ -76,10 +72,10 @@ function saveUser() {
 }
 
 function loadUsuarios() {
-  if (usuarios.getCantUser()) {
+  if (usuarios.length > 0) {
     const table = document.getElementById("tablaUsuario");
     table.innerHTML = "";
-    usuarios.getAllUser().forEach((usuario, index) => {
+    usuarios.forEach((usuario, index) => {
       const row = document.createElement("tr");
 
       row.classList.add("table-active");
