@@ -53,13 +53,13 @@ function devolucion() {
 
       // Muestra el toast automáticamente
       toast.show();
-      actualizarMovies(movie);
+
       /*       // Cierra el toast después de 3 segundos
       setTimeout(function () {
         toast.hide();
       }, 4000); */
     }
-
+    actualizarMovies(movie);
     return true;
   }
 }
